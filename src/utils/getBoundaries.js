@@ -15,6 +15,7 @@ import getPosition from './getPosition';
 export default function getBoundaries(popper, padding, boundariesElement) {
     // NOTE: 1 DOM access here
     let boundaries = {};
+    const position = getPosition(popper);
     if (boundariesElement === 'window') {
         const body = window.document.body;
         const html = window.document.documentElement;
@@ -31,7 +32,6 @@ export default function getBoundaries(popper, padding, boundariesElement) {
         const offsetParent = getOffsetParent(popper);
         const scrollParent = getScrollParent(popper);
         const offsetParentRect = getOffsetRect(offsetParent);
-        const position = getPosition(popper);
 
         // if the popper is fixed we don't have to substract scrolling from the boundaries
         const scrollTop = position === 'fixed' ? 0 : scrollParent.scrollTop;
@@ -52,12 +52,12 @@ export default function getBoundaries(popper, padding, boundariesElement) {
                 bottom: boundariesElement.clientHeight
             };
         } else {
-            if (data.offsets.popper.position === 'fixed') {
+            if (position === 'fixed') {
                 // Fixed positions are relative to the parent of the offsetElement outside of the Bounding Element.
                 const offsetParent = getOffsetParent(boundariesElement);
 
                 if (offsetParent === window.document.documentElement) {
-                    return getBoundaries(popper, data, padding, 'viewport');
+                    return getBoundaries(popper, padding, 'viewport');
                 } else {
                     boundaries = getOffsetRect(boundariesElement);
                     const offsetParentRect = getOffsetRect(offsetParent);
