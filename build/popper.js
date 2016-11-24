@@ -28,7 +28,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global.Popper = factory());
-}(this, function () { 'use strict';
+}(this, (function () { 'use strict';
 
   /**
    * The Object.assign() method is used to copy the values of all enumerable own properties from one or more source
@@ -1252,6 +1252,9 @@
     };
   }();
 
+  // Polyfills
+  // Utils
+  // Modifiers
   // default options
   var DEFAULTS = {
       // placement of the popper
@@ -1381,7 +1384,7 @@
       function Popper(reference, popper) {
           var _this = this;
 
-          var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+          var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
           classCallCheck(this, Popper);
           this.Defaults = DEFAULTS;
 
@@ -1574,11 +1577,13 @@
           key: 'destroy',
           value: function destroy() {
               this.state.isDestroyed = true;
-              this.popper.removeAttribute('x-placement');
-              this.popper.style.left = '';
-              this.popper.style.position = '';
-              this.popper.style.top = '';
-              this.popper.style[getSupportedPropertyName('transform')] = '';
+              if (this.options.modifiers && this.options.modifiers.applyStyle && this.options.modifiers.applyStyle.enabled) {
+                  this.popper.removeAttribute('x-placement');
+                  this.popper.style.left = '';
+                  this.popper.style.position = '';
+                  this.popper.style.top = '';
+                  this.popper.style[getSupportedPropertyName('transform')] = '';
+              }
               this.state = removeEventListeners(this.reference, this.state, this.options);
 
               // remove the popper if user explicity asked for the deletion on destroy
@@ -1608,4 +1613,4 @@
 
   return Popper;
 
-}));
+})));
