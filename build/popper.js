@@ -377,7 +377,7 @@
       if (getStyleComputedProperty(element, 'position') === 'fixed') {
           return true;
       }
-      return getParentNode(element) ? isFixed(getParentNode(element)) : element;
+      return getParentNode(element) ? isFixed(getParentNode(element)) : false;
   }
 
   /**
