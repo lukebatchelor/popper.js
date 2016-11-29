@@ -2,7 +2,7 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
     (global.Tooltip = factory());
-}(this, function () { 'use strict';
+}(this, (function () { 'use strict';
 
     /**
      * Check if the given variable is a function
@@ -40,6 +40,8 @@
       };
     }();
 
+    /* global Popper */
+
     var Tooltip = function () {
         /**
          * @param {HTMLElement} target - The DOM node used as target of the tooltip (it can be a jQuery element).
@@ -68,7 +70,7 @@
          * @return {Object} instance - The generated tooltip instance
          */
         function Tooltip(target) {
-            var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+            var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
             classCallCheck(this, Tooltip);
             this.arrowSelector = '.tooltip-arrow, .tooltip__arrow';
             this.innerSelector = '.tooltip-inner, .tooltip__inner';
@@ -242,4 +244,4 @@
 
     return Tooltip;
 
-}));
+})));
